@@ -45,7 +45,7 @@ function cargaFormulario(){
 function reloadTabla(){
     $.ajax({
         type: "POST",
-        url: "server.php",
+        url: "http://localhost:8000/server.php",
         data: { code: $("#opt").val() },
         dataType: "xml",
         success: function (xml) {
@@ -61,7 +61,7 @@ function reloadTabla(){
 function cargaXML() {
     $.ajax({
         type: "GET",
-        url: "server.php",
+        url: "http://localhost:8000/server.php",
         dataType: "xml",
         success: function (xml) {
             console.log("XML cargado correctamente.");

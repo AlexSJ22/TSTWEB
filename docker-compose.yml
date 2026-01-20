@@ -1,12 +1,20 @@
 services:
-  apache:
+  frontend:
     build:
-      dockerfile: apache.Dockerfile
-    container_name: tstweb-apache
+      dockerfile: frontend.Dockerfile
+    container_name: tstweb-frontend
+    ports:
+      - "8080:80"
+    networks:
+      - tstweb_net
+  backend:
+    build:
+      dockerfile: backend.Dockerfile
+    container_name: tstweb-backend
     depends_on:
       - mysql
     ports:
-      - "8080:80"
+      - "8000:80"
     networks:
       - tstweb_net
   mysql:
@@ -15,7 +23,6 @@ services:
     container_name: tstweb-mysql
     environment:
       MYSQL_ROOT_PASSWORD: pass
-      MYSQL_DATABASE: baseDatos
     volumes:
       - tstweb_db_data:/var/lib/mysql
     networks:
