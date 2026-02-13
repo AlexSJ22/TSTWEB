@@ -1,7 +1,8 @@
 <?php
 include 'result2XML.php';
 
-$con = mysqli_connect('localhost','root','');
+header("Access-Control-Allow-Origin: http://localhost:8000");
+$con = mysqli_connect('database', 'root', 'root');
 
 if (!$con) {
   echo "Error: No se pudo conectar a MySQL." . PHP_EOL;
@@ -10,20 +11,20 @@ if (!$con) {
   exit;
 }
 
-mysqli_select_db($con,"baseDatos");
+mysqli_select_db($con, "baseDatos");
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($group_id=$_POST["code"]) != "0" ){
-  $sql="SELECT e.nombre, e.apellido, e.fecha_nacimiento, g.codigo, e.nota FROM estudiante e JOIN grupo g ON e.grp=g.id WHERE g.id=".$group_id.";";
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($group_id = $_POST["code"]) != "0") {
+  $sql = "SELECT e.nombre, e.apellido, e.fecha_nacimiento, g.codigo, e.nota FROM estudiante e JOIN grupo g ON e.grp=g.id WHERE g.id=" . $group_id . ";";
 } else {
-  $sql="SELECT e.nombre, e.apellido, e.fecha_nacimiento, g.codigo, e.nota FROM estudiante e JOIN grupo g ON e.grp=g.id;";
+  $sql = "SELECT e.nombre, e.apellido, e.fecha_nacimiento, g.codigo, e.nota FROM estudiante e JOIN grupo g ON e.grp=g.id;";
 }
 
-$result = mysqli_query($con,$sql);
+$result = mysqli_query($con, $sql);
 
 
-if($result){
+if ($result) {
   header('Content-Type: application/xml');
-  echo result2XML($result,"estudiantes","estudiante");
+  echo result2XML($result, "estudiantes", "estudiante");
 }
 
 mysqli_close($con);
